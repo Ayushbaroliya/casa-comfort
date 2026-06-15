@@ -824,12 +824,19 @@ img { display: block; }
   max-width: 980px;
   margin: 0 auto;
 }
-.product-detail img {
-  width: 100%;
+.product-detail-image-wrapper {
+  position: relative;
+  overflow: hidden;
   border-radius: var(--radius-lg);
-  object-fit: cover;
   aspect-ratio: 4/3;
+  width: 100%;
   box-shadow: 0 12px 48px rgba(0,0,0,.6);
+}
+.product-detail-image-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: inherit;
 }
 .detail-category-badge {
   display: inline-block;

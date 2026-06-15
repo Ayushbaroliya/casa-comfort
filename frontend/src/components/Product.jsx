@@ -12,6 +12,7 @@ const Product = () => {
   const { id } = useParams();
   const [state, setState] = useState({ item: null, category: null, loading: true, error: null });
   const { toggleWishlist, isWishlisted } = useWishlist();
+  const [showLightbox, setShowLightbox] = useState(false);
 
   useEffect(() => {
     setState({ item: null, category: null, loading: true, error: null });
@@ -59,7 +60,11 @@ const Product = () => {
       </Link>
 
       <div className={`product-detail ${item.isOutOfStock ? "out-of-stock" : ""}`}>
-        <div style={{ position: "relative", overflow: "hidden", borderRadius: "var(--radius-lg)" }}>
+        <div 
+          className="product-detail-image-wrapper" 
+          onClick={() => setShowLightbox(true)}
+          style={{ cursor: "zoom-in" }}
+        >
           <OptimizedImage
             src={item.image || "https://images.unsplash.com/photo-1502005229762-cf1b2da7c5d6?q=80&w=800&auto=format&fit=crop"}
             alt={item.title}
@@ -137,6 +142,61 @@ const Product = () => {
       </div>
 
       <Footer />
+
+      {showLightbox && (
+        <div 
+          className="lightbox-overlay" 
+          onClick={() => setShowLightbox(false)}
+          style={{
+            position: 'fixed',
+            inset: 0,
+            background: 'rgba(0,0,0,0.92)',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            zIndex: 9999,
+            cursor: 'zoom-out',
+            animation: 'fadeIn 0.2s ease-out',
+            backdropFilter: 'blur(10px)'
+          }}
+        >
+          <img 
+            src={item.image || "https://images.unsplash.com/photo-1502005229762-cf1b2da7c5d6?q=80&w=800&auto=format&fit=crop"} 
+            alt={item.title} 
+            style={{
+              maxWidth: '92%',
+              maxHeight: '92%',
+              objectFit: 'contain',
+              borderRadius: '8px',
+              boxShadow: '0 24px 60px rgba(0,0,0,0.9)',
+              transition: 'transform 0.3s ease-out'
+            }}
+          />
+          <button 
+            onClick={(e) => { e.stopPropagation(); setShowLightbox(false); }}
+            style={{
+              position: 'absolute',
+              top: '20px',
+              right: '20px',
+              background: 'rgba(255,255,255,0.15)',
+              border: 'none',
+              borderRadius: '50%',
+              width: '44px',
+              height: '44px',
+              color: '#fff',
+              fontSize: '22px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              cursor: 'pointer',
+              boxShadow: '0 2px 8px rgba(0,0,0,0.5)',
+              transition: 'background-color 0.2s'
+            }}
+          >
+            ✕
+          </button>
+        </div>
+      )}
     </div>
   );
 };
