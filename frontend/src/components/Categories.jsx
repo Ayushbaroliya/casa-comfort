@@ -87,6 +87,9 @@ const Category = () => {
                 <h3>{item.title}</h3>
                 <p className="product-desc">{item.desc}</p>
                 <p className="product-price">{item.price}</p>
+                <p style={{ fontSize: '10px', fontStyle: 'italic', color: 'var(--text-muted)', marginTop: '4px', marginBottom: '8px', lineHeight: '1.3' }}>
+                  *Disclaimer: Fabric cushioning & wood designs are subject to material availability; actual product details may vary slightly.
+                </p>
 
                 <div className="product-actions">
                   <button

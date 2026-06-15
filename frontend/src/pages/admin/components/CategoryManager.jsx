@@ -5,11 +5,21 @@ const CategoryManager = ({ categories, refresh }) => {
   const [editingId, setEditingId] = useState(null);
   const [formData, setFormData] = useState({ id: '', name: '', nameHi: '', icon: '', cover: '', description: '' });
   const [loading, setLoading] = useState(false);
+  const [uploading, setUploading] = useState(false);
 
   const handleDelete = async (id) => {
     if (!window.confirm('Delete this category? This might break products linked to it!')) return;
-    await fetch(`/api/categories?id=${id}`, { method: 'DELETE' });
-    refresh();
+    try {
+      const res = await fetch(`/api/categories?id=${id}`, { method: 'DELETE' });
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.message || errorData.error || 'Failed to delete category');
+      }
+      refresh();
+    } catch (error) {
+      console.error(error);
+      alert('Error deleting category: ' + error.message);
+    }
   };
 
   const handleEdit = (category) => {
@@ -26,6 +36,29 @@ const CategoryManager = ({ categories, refresh }) => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const handleFileUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    setUploading(true);
+    const data = new FormData();
+    data.append('file', file);
+
+    try {
+      const res = await fetch('/api/upload', {
+        method: 'POST',
+        body: data,
+      });
+      if (!res.ok) throw new Error('Upload failed');
+      const result = await res.json();
+      setFormData(prev => ({ ...prev, cover: result.url }));
+    } catch (err) {
+      alert('Upload failed: ' + err.message);
+    } finally {
+      setUploading(false);
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -33,11 +66,16 @@ const CategoryManager = ({ categories, refresh }) => {
       const url = editingId ? `/api/categories?id=${editingId}` : '/api/categories';
       const method = editingId ? 'PUT' : 'POST';
 
-      await fetch(url, {
+      const res = await fetch(url, {
         method,
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
       });
+
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.message || errorData.error || 'Failed to save category');
+      }
       
       setFormData({ id: '', name: '', nameHi: '', icon: '', cover: '', description: '' });
       setShowForm(false);
@@ -45,7 +83,7 @@ const CategoryManager = ({ categories, refresh }) => {
       refresh();
     } catch (error) {
       console.error(error);
-      alert('Error saving category');
+      alert('Error saving category: ' + error.message);
     } finally {
       setLoading(false);
     }
@@ -61,7 +99,6 @@ const CategoryManager = ({ categories, refresh }) => {
     }
   };
 
-  
   return (
     <div className="admin-card">
       <div className="manager-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
@@ -95,8 +132,14 @@ const CategoryManager = ({ categories, refresh }) => {
               <input value={formData.icon} onChange={e => setFormData({...formData, icon: e.target.value})} style={inputStyle} />
             </div>
             <div style={{ gridColumn: 'span 2' }}>
-              <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.875rem', color: 'var(--admin-text-muted)' }}>Cover Image URL (Optional)</label>
-              <input value={formData.cover} onChange={e => setFormData({...formData, cover: e.target.value})} style={inputStyle} />
+              <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.875rem', color: 'var(--admin-text-muted)' }}>Cover Image</label>
+              <div style={{ border: '2px dashed var(--admin-border)', padding: '1rem', borderRadius: '6px', textAlign: 'center', background: 'var(--admin-bg)', marginBottom: '1rem' }}>
+                <input type="file" onChange={handleFileUpload} accept="image/*" style={{ color: 'var(--admin-text-muted)' }} />
+                {uploading && <p style={{ color: '#3b82f6', fontSize: '0.875rem', marginTop: '0.5rem' }}>Uploading to Cloudinary...</p>}
+              </div>
+              {formData.cover && (
+                <img src={formData.cover} alt="Preview" style={{ width: '100%', height: '150px', objectFit: 'cover', borderRadius: '6px', border: '1px solid var(--admin-border)', marginBottom: '1rem' }} />
+              )}
             </div>
             <div style={{ gridColumn: 'span 2' }}>
               <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.875rem', color: 'var(--admin-text-muted)' }}>Description</label>

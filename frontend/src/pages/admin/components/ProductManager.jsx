@@ -56,13 +56,24 @@ const ProductManager = ({ tiles, categories, refresh }) => {
     const method = editingTile ? 'PATCH' : 'POST';
     const url = editingTile ? `/api/tiles?id=${editingTile._id}` : '/api/tiles';
 
-    await fetch(url, {
-      method,
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(formData),
-    });
-    refresh();
-    setShowForm(false);
+    try {
+      const res = await fetch(url, {
+        method,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.message || errorData.error || 'Failed to save product');
+      }
+
+      refresh();
+      setShowForm(false);
+    } catch (err) {
+      console.error(err);
+      alert('Error saving product: ' + err.message);
+    }
   };
 
   
@@ -100,8 +111,12 @@ const ProductManager = ({ tiles, categories, refresh }) => {
               </div>
 
               <div>
-                <label style={labelStyle}>Price (e.g. ₹85/sqft)</label>
-                <input value={formData.price} onChange={e => setFormData({...formData, price: e.target.value})} style={inputStyle} required />
+                <label style={labelStyle}>Availability Status</label>
+                <select value={formData.price} onChange={e => setFormData({...formData, price: e.target.value})} style={inputStyle} required>
+                  <option value="" style={{ background: 'var(--admin-card-bg)', color: 'var(--admin-text)' }}>Select Status</option>
+                  <option value="Available" style={{ background: 'var(--admin-card-bg)', color: 'var(--admin-text)' }}>Available</option>
+                  <option value="Available on Order" style={{ background: 'var(--admin-card-bg)', color: 'var(--admin-text)' }}>Available on Order</option>
+                </select>
               </div>
 
               <div>

@@ -88,6 +88,9 @@ const Product = () => {
             <p style={{ color: "#ef4444", fontWeight: "bold", marginBottom: "10px" }}>⚠️ Currently unavailable</p>
           )}
           <p className="detail-desc">{item.desc}</p>
+          <p style={{ fontSize: '11px', fontStyle: 'italic', color: 'var(--text-muted)', marginBottom: '20px', lineHeight: '1.4' }}>
+            *Disclaimer: Cushioning fabrics, textures, and precise wood designs are subject to material availability; actual product details may vary.
+          </p>
 
           {/* Action buttons row */}
           <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginTop: 4 }}>

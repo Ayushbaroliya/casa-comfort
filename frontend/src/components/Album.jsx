@@ -116,6 +116,9 @@ const Album = () => {
                       }}>
                         {item.price}
                       </p>
+                      <p style={{ fontSize: '10px', fontStyle: 'italic', color: 'var(--text-muted)', marginTop: '4px', marginBottom: '8px', lineHeight: '1.2' }}>
+                        *Disclaimer: Cushioning fabrics and wood carving details are subject to availability; actual product may vary.
+                      </p>
 
                       <div className="product-actions">
                         <button
