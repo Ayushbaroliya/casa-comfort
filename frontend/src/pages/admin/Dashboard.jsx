@@ -24,10 +24,43 @@ const AdminDashboard = () => {
         fetch('/api/tiles'),
         fetch('/api/categories')
       ]);
-      setTiles(await tilesRes.json());
-      setCategories(await catRes.json());
+
+      let tilesData = [];
+      let categoriesData = [];
+
+      if (!tilesRes.ok) {
+        let errMsg = 'Failed to fetch products';
+        const contentType = tilesRes.headers.get('content-type');
+        if (contentType && contentType.includes('application/json')) {
+          const errData = await tilesRes.json();
+          errMsg = errData.message || errData.error || errMsg;
+        } else {
+          errMsg = await tilesRes.text();
+        }
+        throw new Error(errMsg);
+      } else {
+        tilesData = await tilesRes.json();
+      }
+
+      if (!catRes.ok) {
+        let errMsg = 'Failed to fetch categories';
+        const contentType = catRes.headers.get('content-type');
+        if (contentType && contentType.includes('application/json')) {
+          const errData = await catRes.json();
+          errMsg = errData.message || errData.error || errMsg;
+        } else {
+          errMsg = await catRes.text();
+        }
+        throw new Error(errMsg);
+      } else {
+        categoriesData = await catRes.json();
+      }
+
+      setTiles(tilesData);
+      setCategories(categoriesData);
     } catch (err) {
       console.error('Failed to fetch admin data', err);
+      alert('Error fetching admin data: ' + err.message);
     } finally {
       setLoading(false);
     }
