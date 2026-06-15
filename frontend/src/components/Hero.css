@@ -2,7 +2,7 @@
 .premium-hero-section {
   position: relative;
   width: 100%;
-  min-height: 100vh;
+  min-height: calc(100vh - 75px);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -14,27 +14,29 @@
   position: absolute;
   top: 0; left: 0; right: 0; bottom: 0;
   background-image: url('/casa_hero.webp');
-  background-size: 100% 100%;
+  background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   z-index: 1;
 }
 
+.premium-hero-bg::before {
+  content: '';
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  right: 14px;
+  bottom: 14px;
+  border: 1.5px dashed #C89C4E; /* Pixel-perfect responsive gold stitches on all four sides */
+  pointer-events: none;
+  z-index: 2;
+  opacity: 0.85;
+  filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.9));
+}
+
 /* Stitched borders top and bottom */
 .premium-hero-stitch {
-  position: absolute;
-  left: 0; right: 0;
-  height: 2px;
-  border-top: 1px dashed rgba(255, 255, 255, 0.15);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.8);
-  pointer-events: none;
-  z-index: 3;
-}
-.premium-hero-stitch.top {
-  top: 16px;
-}
-.premium-hero-stitch.bottom {
-  bottom: 16px;
+  display: none; /* Hide legacy horizontal stitch elements to use the new all-four-sides CSS border */
 }
 
 /* Center Layout */
@@ -294,7 +296,7 @@
 
 @media (max-width: 768px) {
   .brand-casa, .brand-comforts {
-    font-size: 3.5rem;
+    font-size: clamp(2.3rem, 7vw, 3.5rem);
   }
   .premium-tagline {
     font-size: 1.6rem;
@@ -314,5 +316,57 @@
     margin-bottom: -5px;
     width: 140px;
     height: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .premium-hero-section {
+    min-height: calc(100vh - 54px);
+  }
+  .premium-hero-content {
+    padding: 85px 24px 30px;
+  }
+  .brand-casa, .brand-comforts {
+    font-size: clamp(1.8rem, 9vw, 2.5rem);
+  }
+  .brand-comforts {
+    letter-spacing: 2px;
+  }
+  .mandala-icon {
+    width: clamp(70px, 20vw, 110px);
+    height: auto;
+    margin-bottom: -5px;
+  }
+  .furniture-icon-group {
+    width: clamp(65px, 20vw, 100px);
+    height: auto;
+    margin-left: 8px;
+    margin-bottom: -3px;
+  }
+  .brand-top-row {
+    transform: translateX(-8px);
+  }
+  .premium-tagline {
+    font-size: 1.3rem;
+    margin-top: 10px;
+    margin-bottom: 15px;
+  }
+  .premium-divider-wrapper {
+    margin-bottom: 18px;
+    gap: 10px;
+  }
+  .premium-subheading {
+    font-size: 0.95rem;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+  }
+  .premium-description {
+    font-size: 0.85rem;
+    margin-bottom: 24px;
+    padding: 0 10px;
+  }
+  .premium-cta-button {
+    padding: 12px 32px;
+    font-size: 0.9rem;
   }
 }
