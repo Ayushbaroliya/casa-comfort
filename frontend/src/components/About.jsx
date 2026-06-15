@@ -4,7 +4,7 @@ import { FaWhatsapp, FaInstagram, FaMapMarkerAlt, FaPhone, FaStore, FaTrophy, Fa
 const WA_NUMBER = import.meta.env.VITE_WHATSAPP_NUMBER || "9111999271";
 const PHONE    = import.meta.env.VITE_PHONE_NUMBER    || "9111999271";
 const IG_LINK  = import.meta.env.VITE_INSTAGRAM_LINK  || "https://www.instagram.com/singhai.harshjain";
-const MAP_LINK = import.meta.env.VITE_MAPS_LINK       || "https://maps.app.goo.gl/sxkqiLwtcLCUuRrWA";
+const MAP_LINK = import.meta.env.VITE_MAPS_LINK       || "https://www.google.com/maps/search/?api=1&query=53%2F33+Rameshwaram+Colony%2C+Beside+New+Laxmi+Pratisthan%2C+Vijay+Nagar+Main+Road%2C+Jabalpur+482002+%28M.P.%29";
 
 const About = () => {
   const openWhatsApp = () => {
@@ -59,6 +59,26 @@ const About = () => {
                 <span>Locate Our Shop</span>
               </a>
             </div>
+          </div>
+
+          {/* Showroom Location Card */}
+          <div className="about-socials-card">
+            <h3>Our Showroom Address</h3>
+            <p style={{ fontSize: '0.95rem', color: 'var(--text)', lineHeight: '1.6', marginBottom: '1.25rem' }}>
+              53/33 Rameshwaram Colony,<br />
+              Beside New Laxmi Pratisthan,<br />
+              Vijay Nagar Main Road,<br />
+              Jabalpur 482002 (M.P.)
+            </p>
+            <iframe
+              src="https://maps.google.com/maps?q=53/33%20Rameshwaram%20Colony,%20Beside%20New%20Laxmi%20Pratisthan,%20Vijay%20Nagar%20Main%20Road,%20Jabalpur%20482002%20(M.P.)&t=&z=16&ie=UTF8&iwloc=&output=embed"
+              width="100%"
+              height="200"
+              style={{ border: "1px solid var(--border)", borderRadius: "var(--radius)", background: "var(--card)" }}
+              allowFullScreen=""
+              loading="lazy"
+              title="Casa Comforts Showroom Map"
+            ></iframe>
           </div>
         </div>
 

@@ -12,8 +12,15 @@ const CategoryManager = ({ categories, refresh }) => {
     try {
       const res = await fetch(`/api/categories?id=${id}`, { method: 'DELETE' });
       if (!res.ok) {
-        const errorData = await res.json();
-        throw new Error(errorData.message || errorData.error || 'Failed to delete category');
+        let errMsg = 'Failed to delete category';
+        const contentType = res.headers.get('content-type');
+        if (contentType && contentType.includes('application/json')) {
+          const errorData = await res.json();
+          errMsg = errorData.message || errorData.error || errMsg;
+        } else {
+          errMsg = await res.text();
+        }
+        throw new Error(errMsg);
       }
       refresh();
     } catch (error) {
@@ -73,8 +80,15 @@ const CategoryManager = ({ categories, refresh }) => {
       });
 
       if (!res.ok) {
-        const errorData = await res.json();
-        throw new Error(errorData.message || errorData.error || 'Failed to save category');
+        let errMsg = 'Failed to save category';
+        const contentType = res.headers.get('content-type');
+        if (contentType && contentType.includes('application/json')) {
+          const errorData = await res.json();
+          errMsg = errorData.message || errorData.error || errMsg;
+        } else {
+          errMsg = await res.text();
+        }
+        throw new Error(errMsg);
       }
       
       setFormData({ id: '', name: '', nameHi: '', icon: '', cover: '', description: '' });

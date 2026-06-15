@@ -5,7 +5,7 @@ import { FaInstagram, FaMapMarkerAlt, FaPhone, FaHeart, FaEnvelope } from "react
 const PHONE    = import.meta.env.VITE_PHONE_NUMBER    || "9111999271";
 const EMAIL    = "casacomforts.furniture@gmail.com";
 const IG_LINK  = import.meta.env.VITE_INSTAGRAM_LINK  || "https://www.instagram.com/casacomforts";
-const MAP_LINK = import.meta.env.VITE_MAPS_LINK       || "https://maps.app.goo.gl/sxkqiLwtcLCUuRrWA";
+const MAP_LINK = import.meta.env.VITE_MAPS_LINK       || "https://www.google.com/maps/search/?api=1&query=53%2F33+Rameshwaram+Colony%2C+Beside+New+Laxmi+Pratisthan%2C+Vijay+Nagar+Main+Road%2C+Jabalpur+482002+%28M.P.%29";
 
 const Footer = () => {
   const navigate = useNavigate();
@@ -72,17 +72,25 @@ const Footer = () => {
         </div>
 
         {/* Embedded map */}
-        <div className="footer-map-col">
-          <h4 className="footer-col-title">Location</h4>
+        <div className="footer-map-col" style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+          <h4 className="footer-col-title" style={{ marginBottom: 0 }}>Location</h4>
+          <iframe
+            src="https://maps.google.com/maps?q=53/33%20Rameshwaram%20Colony,%20Beside%20New%20Laxmi%20Pratisthan,%20Vijay%20Nagar%20Main%20Road,%20Jabalpur%20482002%20(M.P.)&t=&z=16&ie=UTF8&iwloc=&output=embed"
+            width="100%"
+            height="150"
+            style={{ border: "1px solid var(--border)", borderRadius: "var(--radius)", background: "var(--card)" }}
+            allowFullScreen=""
+            loading="lazy"
+            title="Casa Comforts Location Map"
+          ></iframe>
           <a
             href={MAP_LINK}
             target="_blank"
             rel="noopener noreferrer"
-            className="footer-map-thumb"
-            title="Open in Google Maps"
+            className="footer-link-item footer-map"
+            style={{ fontSize: '12px' }}
           >
-            <FaMapMarkerAlt size={28} style={{ color: "var(--accent)" }} />
-            <span>View on Google Maps ↗</span>
+            <span>Open in Google Maps ↗</span>
           </a>
         </div>
       </div>

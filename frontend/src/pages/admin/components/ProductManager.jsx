@@ -64,8 +64,15 @@ const ProductManager = ({ tiles, categories, refresh }) => {
       });
 
       if (!res.ok) {
-        const errorData = await res.json();
-        throw new Error(errorData.message || errorData.error || 'Failed to save product');
+        let errMsg = 'Failed to save product';
+        const contentType = res.headers.get('content-type');
+        if (contentType && contentType.includes('application/json')) {
+          const errorData = await res.json();
+          errMsg = errorData.message || errorData.error || errMsg;
+        } else {
+          errMsg = await res.text();
+        }
+        throw new Error(errMsg);
       }
 
       refresh();
