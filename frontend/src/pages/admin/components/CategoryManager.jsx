@@ -65,7 +65,7 @@ const CategoryManager = ({ categories, refresh }) => {
   return (
     <div className="admin-card">
       <div className="manager-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
-        <h2 style={{ margin: 0, color: '#333' }}>Category Management ({categories.length})</h2>
+        <h2 style={{ margin: 0, color: 'var(--admin-text)' }}>Category Management ({categories.length})</h2>
         <button 
           onClick={toggleForm} 
           style={{ padding: '0.6rem 1.2rem', background: showForm ? '#64748b' : '#3b82f6', color: '#fff', border: 'none', borderRadius: '6px', cursor: 'pointer', fontWeight: '500' }}
@@ -75,31 +75,31 @@ const CategoryManager = ({ categories, refresh }) => {
       </div>
 
       {showForm && (
-        <div style={{ marginBottom: '2rem', padding: '1.5rem', background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '8px' }}>
-          <h3 style={{ marginTop: 0, color: '#1e293b' }}>{editingId ? 'Edit Category' : 'Create Category'}</h3>
+        <div style={{ marginBottom: '2rem', padding: '1.5rem', background: 'var(--admin-bg)', border: '1px solid var(--admin-border)', borderRadius: '8px' }}>
+          <h3 style={{ marginTop: 0, color: 'var(--admin-text)' }}>{editingId ? 'Edit Category' : 'Create Category'}</h3>
           <form onSubmit={handleSubmit} className="admin-form-grid">
             <div>
-              <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.875rem' }}>Slug ID (e.g. wall-tiles)</label>
+              <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.875rem', color: 'var(--admin-text-muted)' }}>Slug ID (e.g. wall-tiles)</label>
               <input value={formData.id} onChange={e => setFormData({...formData, id: e.target.value.toLowerCase().replace(/\s+/g, '-')})} style={inputStyle} required />
             </div>
             <div>
-              <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.875rem' }}>Name</label>
+              <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.875rem', color: 'var(--admin-text-muted)' }}>Name</label>
               <input value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} style={inputStyle} required />
             </div>
             <div>
-              <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.875rem' }}>Name (Hindi) Optional</label>
+              <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.875rem', color: 'var(--admin-text-muted)' }}>Name (Hindi) Optional</label>
               <input value={formData.nameHi} onChange={e => setFormData({...formData, nameHi: e.target.value})} style={inputStyle} />
             </div>
             <div>
-              <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.875rem' }}>Icon (Emoji)</label>
+              <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.875rem', color: 'var(--admin-text-muted)' }}>Icon (Emoji)</label>
               <input value={formData.icon} onChange={e => setFormData({...formData, icon: e.target.value})} style={inputStyle} />
             </div>
             <div style={{ gridColumn: 'span 2' }}>
-              <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.875rem' }}>Cover Image URL (Optional)</label>
+              <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.875rem', color: 'var(--admin-text-muted)' }}>Cover Image URL (Optional)</label>
               <input value={formData.cover} onChange={e => setFormData({...formData, cover: e.target.value})} style={inputStyle} />
             </div>
             <div style={{ gridColumn: 'span 2' }}>
-              <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.875rem' }}>Description</label>
+              <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.875rem', color: 'var(--admin-text-muted)' }}>Description</label>
               <textarea value={formData.description} onChange={e => setFormData({...formData, description: e.target.value})} style={{...inputStyle, height: '80px', resize: 'vertical'}} />
             </div>
             <button disabled={loading} type="submit" style={{ gridColumn: 'span 2', padding: '0.8rem', background: loading ? '#94a3b8' : '#10b981', color: '#fff', border: 'none', borderRadius: '6px', cursor: loading ? 'not-allowed' : 'pointer', fontWeight: 'bold' }}>
@@ -112,7 +112,7 @@ const CategoryManager = ({ categories, refresh }) => {
       <div style={{ overflowX: 'auto' }}>
         <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
           <thead>
-            <tr style={{ background: '#f1f5f9', color: '#475569', fontSize: '0.875rem', textTransform: 'uppercase' }}>
+            <tr style={{ background: 'var(--admin-bg)', color: 'var(--admin-text-muted)', fontSize: '0.875rem', textTransform: 'uppercase' }}>
               <th style={{ padding: '1rem', borderRadius: '8px 0 0 8px' }}>Icon</th>
               <th style={{ padding: '1rem' }}>ID Slug</th>
               <th style={{ padding: '1rem' }}>Display Name</th>
@@ -121,21 +121,21 @@ const CategoryManager = ({ categories, refresh }) => {
           </thead>
           <tbody>
             {categories.map(c => (
-              <tr key={c._id} style={{ borderBottom: '1px solid #e2e8f0' }}>
+              <tr key={c._id} style={{ borderBottom: '1px solid var(--admin-border)' }}>
                 <td style={{ padding: '1rem', fontSize: '1.5rem' }}>{c.icon || '📁'}</td>
-                <td style={{ padding: '1rem', fontFamily: 'monospace', color: '#64748b' }}>{c.id}</td>
-                <td style={{ padding: '1rem', fontWeight: '500' }}>{c.name}</td>
+                <td style={{ padding: '1rem', fontFamily: 'monospace', color: 'var(--admin-text-muted)' }}>{c.id}</td>
+                <td style={{ padding: '1rem', fontWeight: '500', color: 'var(--admin-text)' }}>{c.name}</td>
                 <td style={{ padding: '1rem', textAlign: 'right' }}>
                   <div style={{ display: 'flex', gap: '0.5rem', justifyContent: 'flex-end', flexWrap: 'wrap' }}>
                     <button 
                       onClick={() => handleEdit(c)} 
-                      style={{ color: '#3b82f6', backgroundColor: '#dbeafe', border: 'none', padding: '0.4rem 0.8rem', borderRadius: '4px', cursor: 'pointer', fontWeight: '500', transition: 'all 0.2s' }}
+                      style={{ color: '#3b82f6', backgroundColor: 'rgba(59, 130, 246, 0.15)', border: 'none', padding: '0.4rem 0.8rem', borderRadius: '4px', cursor: 'pointer', fontWeight: '500', transition: 'all 0.2s' }}
                     >
                       Edit
                     </button>
                     <button 
                       onClick={() => handleDelete(c._id)} 
-                      style={{ color: '#ef4444', backgroundColor: '#fee2e2', border: 'none', padding: '0.4rem 0.8rem', borderRadius: '4px', cursor: 'pointer', fontWeight: '500', transition: 'all 0.2s' }}
+                      style={{ color: '#ef4444', backgroundColor: 'rgba(239, 68, 68, 0.15)', border: 'none', padding: '0.4rem 0.8rem', borderRadius: '4px', cursor: 'pointer', fontWeight: '500', transition: 'all 0.2s' }}
                     >
                       Delete
                     </button>
@@ -145,7 +145,7 @@ const CategoryManager = ({ categories, refresh }) => {
             ))}
             {categories.length === 0 && (
               <tr>
-                <td colSpan="4" style={{ padding: '2rem', textAlign: 'center', color: '#64748b' }}>No categories found. Add some!</td>
+                <td colSpan="4" style={{ padding: '2rem', textAlign: 'center', color: 'var(--admin-text-muted)' }}>No categories found. Add some!</td>
               </tr>
             )}
           </tbody>
@@ -158,10 +158,12 @@ const CategoryManager = ({ categories, refresh }) => {
 const inputStyle = {
   width: '100%',
   padding: '0.6rem 0.8rem',
-  border: '1px solid #cbd5e1',
+  border: '1px solid var(--admin-border)',
   borderRadius: '6px',
   outline: 'none',
-  fontSize: '0.95rem'
+  fontSize: '0.95rem',
+  background: 'var(--admin-input-bg)',
+  color: 'var(--admin-text)'
 };
 
 export default CategoryManager;

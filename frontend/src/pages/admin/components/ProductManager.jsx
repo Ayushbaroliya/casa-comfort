@@ -69,7 +69,7 @@ const ProductManager = ({ tiles, categories, refresh }) => {
   return (
     <div className="admin-card">
       <div className="manager-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
-        <h2 style={{ margin: 0, color: '#333' }}>Products Catalogue ({tiles.length})</h2>
+        <h2 style={{ margin: 0, color: 'var(--admin-text)' }}>Products Catalogue ({tiles.length})</h2>
         <button 
           onClick={() => openForm()}
           style={{ padding: '0.6rem 1.2rem', background: '#3b82f6', color: '#fff', border: 'none', borderRadius: '6px', cursor: 'pointer', fontWeight: '500' }}
@@ -79,9 +79,9 @@ const ProductManager = ({ tiles, categories, refresh }) => {
       </div>
 
       {showForm && (
-        <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.5)', display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 1200 }}>
-          <div style={{ background: '#fff', padding: '2rem', borderRadius: '12px', width: '90%', maxWidth: '500px', maxHeight: '90vh', overflowY: 'auto' }}>
-            <h3 style={{ marginTop: 0, borderBottom: '1px solid #eee', paddingBottom: '1rem' }}>
+        <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.7)', display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 1200, backdropFilter: 'blur(4px)' }}>
+          <div style={{ background: 'var(--admin-card-bg)', border: '1px solid var(--admin-border)', color: 'var(--admin-text)', padding: '2rem', borderRadius: '12px', width: '90%', maxWidth: '500px', maxHeight: '90vh', overflowY: 'auto' }}>
+            <h3 style={{ marginTop: 0, borderBottom: '1px solid var(--admin-border)', paddingBottom: '1rem', color: 'var(--admin-text)' }}>
               {editingTile ? 'Edit Product' : 'Create New Product'}
             </h3>
             
@@ -94,8 +94,8 @@ const ProductManager = ({ tiles, categories, refresh }) => {
               <div>
                 <label style={labelStyle}>Category</label>
                 <select value={formData.category} onChange={e => setFormData({...formData, category: e.target.value})} style={inputStyle} required>
-                  <option value="">Select a Category</option>
-                  {categories.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
+                  <option value="" style={{ background: 'var(--admin-card-bg)', color: 'var(--admin-text)' }}>Select a Category</option>
+                  {categories.map(c => <option key={c.id} value={c.id} style={{ background: 'var(--admin-card-bg)', color: 'var(--admin-text)' }}>{c.name}</option>)}
                 </select>
               </div>
 
@@ -111,12 +111,12 @@ const ProductManager = ({ tiles, categories, refresh }) => {
 
               <div>
                 <label style={labelStyle}>Product Image</label>
-                <div style={{ border: '2px dashed #cbd5e1', padding: '1rem', borderRadius: '6px', textAlign: 'center' }}>
-                  <input type="file" onChange={handleFileUpload} accept="image/*" />
+                <div style={{ border: '2px dashed var(--admin-border)', padding: '1rem', borderRadius: '6px', textAlign: 'center', background: 'var(--admin-bg)' }}>
+                  <input type="file" onChange={handleFileUpload} accept="image/*" style={{ color: 'var(--admin-text-muted)' }} />
                   {uploading && <p style={{ color: '#3b82f6', fontSize: '0.875rem', marginTop: '0.5rem' }}>Uploading to Cloudinary...</p>}
                 </div>
                 {formData.imageUrl && (
-                  <img src={formData.imageUrl} alt="Preview" style={{ width: '100%', height: '150px', objectFit: 'cover', borderRadius: '6px', marginTop: '1rem' }} />
+                  <img src={formData.imageUrl} alt="Preview" style={{ width: '100%', height: '150px', objectFit: 'cover', borderRadius: '6px', marginTop: '1rem', border: '1px solid var(--admin-border)' }} />
                 )}
               </div>
 
@@ -124,7 +124,7 @@ const ProductManager = ({ tiles, categories, refresh }) => {
                 <button type="submit" disabled={uploading} style={{ flex: 1, padding: '0.8rem', background: uploading ? '#94a3b8' : '#10b981', color: '#fff', border: 'none', borderRadius: '6px', cursor: 'pointer', fontWeight: 'bold' }}>
                   Save Product
                 </button>
-                <button type="button" onClick={() => setShowForm(false)} style={{ flex: 1, padding: '0.8rem', background: '#f1f5f9', color: '#475569', border: 'none', borderRadius: '6px', cursor: 'pointer', fontWeight: 'bold' }}>
+                <button type="button" onClick={() => setShowForm(false)} style={{ flex: 1, padding: '0.8rem', background: 'var(--admin-bg)', color: 'var(--admin-text)', border: 'none', borderRadius: '6px', cursor: 'pointer', fontWeight: 'bold' }}>
                   Cancel
                 </button>
               </div>
@@ -135,7 +135,7 @@ const ProductManager = ({ tiles, categories, refresh }) => {
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '1.5rem' }}>
         {tiles.map(tile => (
-          <div key={tile._id} style={{ display: 'flex', flexDirection: 'column', border: '1px solid #e2e8f0', borderRadius: '12px', overflow: 'hidden', transition: 'transform 0.2s', background: '#fff' }}>
+          <div key={tile._id} style={{ display: 'flex', flexDirection: 'column', border: '1px solid var(--admin-border)', borderRadius: '12px', overflow: 'hidden', transition: 'transform 0.2s', background: 'var(--admin-card-bg)' }}>
             <div style={{ position: 'relative', height: '200px' }}>
               <img src={tile.imageUrl} alt={tile.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
               <div style={{ position: 'absolute', top: '10px', right: '10px', background: tile.stockStatus ? '#10b981' : '#ef4444', color: '#fff', padding: '0.2rem 0.6rem', borderRadius: '20px', fontSize: '0.75rem', fontWeight: 'bold' }}>
@@ -144,10 +144,10 @@ const ProductManager = ({ tiles, categories, refresh }) => {
             </div>
             
             <div style={{ padding: '1.2rem', display: 'flex', flexDirection: 'column', flex: 1 }}>
-              <h3 style={{ margin: '0 0 0.5rem 0', fontSize: '1.1rem', color: '#1e293b' }}>{tile.name}</h3>
-              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem', fontSize: '0.9rem', color: '#64748b' }}>
-                <span style={{ background: '#f1f5f9', padding: '0.2rem 0.6rem', borderRadius: '4px' }}>{tile.category}</span>
-                <strong style={{ color: '#0f172a' }}>{tile.price}</strong>
+              <h3 style={{ margin: '0 0 0.5rem 0', fontSize: '1.1rem', color: 'var(--admin-text)' }}>{tile.name}</h3>
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem', fontSize: '0.9rem', color: 'var(--admin-text-muted)' }}>
+                <span style={{ background: 'var(--admin-bg)', padding: '0.2rem 0.6rem', borderRadius: '4px' }}>{tile.category}</span>
+                <strong style={{ color: 'var(--admin-text)' }}>{tile.price}</strong>
               </div>
               
               <div style={{ display: 'flex', gap: '0.5rem', marginTop: 'auto', flexWrap: 'wrap' }}>
@@ -169,8 +169,8 @@ const ProductManager = ({ tiles, categories, refresh }) => {
   );
 };
 
-const labelStyle = { display: 'block', marginBottom: '0.4rem', fontSize: '0.875rem', color: '#475569', fontWeight: '500' };
-const inputStyle = { width: '100%', padding: '0.6rem', border: '1px solid #cbd5e1', borderRadius: '6px', outline: 'none' };
+const labelStyle = { display: 'block', marginBottom: '0.4rem', fontSize: '0.875rem', color: 'var(--admin-text-muted)', fontWeight: '500' };
+const inputStyle = { width: '100%', padding: '0.6rem', border: '1px solid var(--admin-border)', borderRadius: '6px', outline: 'none', background: 'var(--admin-input-bg)', color: 'var(--admin-text)' };
 const actionBtnStyle = { padding: '0.5rem', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '0.875rem', fontWeight: '500', transition: 'opacity 0.2s' };
 
 export default ProductManager;

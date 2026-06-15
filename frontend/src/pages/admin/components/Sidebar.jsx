@@ -7,7 +7,7 @@ const Sidebar = ({ activeTab, setActiveTab, onLogout, mobileOpen }) => {
   return (
     <aside className={`admin-sidebar ${mobileOpen ? 'mobile-open' : ''}`}>
       <div style={{ padding: '2rem 1.5rem', borderBottom: '1px solid #333' }}>
-        <h2 style={{ margin: 0, color: '#f5a623', fontSize: '1.5rem', fontWeight: 'bold' }}>Paaras Admin</h2>
+        <h2 style={{ margin: 0, color: '#f5a623', fontSize: '1.5rem', fontWeight: 'bold' }}>Casa Admin</h2>
       </div>
       
       <nav style={{ flex: 1, padding: '1rem 0' }}>

@@ -56,10 +56,10 @@ const AdminDashboard = () => {
       <main className="admin-main">
         <header className="admin-header">
           <div>
-            <h1 style={{ margin: 0, fontSize: '1.5rem', color: '#1e293b' }}>
+            <h1 style={{ margin: 0, fontSize: '1.5rem', color: 'var(--admin-text)' }}>
               {activeTab === 'dashboard' ? 'Overview Dashboard' : activeTab === 'categories' ? 'Category Management' : 'Products & Pricing'}
             </h1>
-            <p style={{ margin: '0.25rem 0 0', color: '#64748b', fontSize: '0.875rem' }}>Manage your furniture pieces, designs, and collections.</p>
+            <p style={{ margin: '0.25rem 0 0', color: 'var(--admin-text-muted)', fontSize: '0.875rem' }}>Manage your furniture pieces, designs, and collections.</p>
           </div>
           
           <div className="user-profile" style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
@@ -69,7 +69,7 @@ const AdminDashboard = () => {
 
         {loading ? (
           <div style={{ display: 'flex', justifyContent: 'center', padding: '4rem' }}>
-            <p style={{ color: '#64748b', fontSize: '1.1rem' }}>Loading Admin Workspace...</p>
+            <p style={{ color: 'var(--admin-text-muted)', fontSize: '1.1rem' }}>Loading Admin Workspace...</p>
           </div>
         ) : (
           <div className="admin-content-area" style={{ animation: 'fadeIn 0.3s ease-in' }}>
@@ -105,13 +105,13 @@ const AdminDashboard = () => {
 };
 
 const StatCard = ({ title, count, color, icon }) => (
-  <div style={{ background: '#fff', padding: '1.5rem', borderRadius: '12px', boxShadow: '0 4px 6px rgba(0,0,0,0.05)', display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
+  <div style={{ background: 'var(--admin-card-bg)', padding: '1.5rem', borderRadius: '12px', boxShadow: '0 4px 12px rgba(0,0,0,0.2)', border: '1px solid var(--admin-border)', display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
     <div style={{ fontSize: '2.5rem', background: `${color}15`, width: '70px', height: '70px', borderRadius: '16px', display: 'flex', alignItems: 'center', justifyContent: 'center', color }}>
       {icon}
     </div>
     <div>
-      <p style={{ margin: 0, color: '#64748b', fontSize: '0.875rem', fontWeight: '500', textTransform: 'uppercase', letterSpacing: '0.5px' }}>{title}</p>
-      <h3 style={{ margin: '0.25rem 0 0', fontSize: '2rem', color: '#1e293b' }}>{count}</h3>
+      <p style={{ margin: 0, color: 'var(--admin-text-muted)', fontSize: '0.875rem', fontWeight: '500', textTransform: 'uppercase', letterSpacing: '0.5px' }}>{title}</p>
+      <h3 style={{ margin: '0.25rem 0 0', fontSize: '2rem', color: 'var(--admin-text)' }}>{count}</h3>
     </div>
   </div>
 );

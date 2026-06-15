@@ -1501,9 +1501,18 @@ img { display: block; }
 ══════════════════════════════════════════════════ */
 
 .admin-layout {
+  --admin-bg: #0f172a;
+  --admin-bg-hover: #1e293b;
+  --admin-card-bg: #1e293b;
+  --admin-border: #334155;
+  --admin-text: #f8fafc;
+  --admin-text-muted: #94a3b8;
+  --admin-input-bg: #0f172a;
+
   display: flex;
   min-height: 100vh;
-  background: #f8fafc !important;
+  background: var(--admin-bg) !important;
+  color: var(--admin-text) !important;
   font-family: 'Inter', sans-serif !important;
 }
 
@@ -1534,17 +1543,19 @@ img { display: block; }
   justify-content: space-between;
   align-items: center;
   margin-bottom: 2rem;
-  background: #fff;
+  background: var(--admin-card-bg);
   padding: 1rem 2rem;
   border-radius: 12px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+  border: 1px solid var(--admin-border);
 }
 
 .admin-card {
-  background: #fff;
+  background: var(--admin-card-bg);
   padding: 2rem;
   border-radius: 12px;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.25);
+  border: 1px solid var(--admin-border);
 }
 
 .admin-form-grid {
