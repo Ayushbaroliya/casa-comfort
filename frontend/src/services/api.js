@@ -1,20 +1,51 @@
 const BASE_URL = '/api';
 
-let _categoriesCache = null;
-
 export async function fetchCategories() {
-  if (_categoriesCache) return _categoriesCache;
-  
   try {
-    const res = await fetch('/dummy-data.json');
+    const [catRes, tilesRes] = await Promise.all([
+      fetch('/api/categories'),
+      fetch('/api/tiles')
+    ]);
 
-    if (!res.ok) throw new Error('Failed to fetch dummy data');
+    if (!catRes.ok || !tilesRes.ok) {
+      throw new Error('Failed to fetch data from database API');
+    }
 
-    _categoriesCache = await res.json();
-    return _categoriesCache;
+    const categories = await catRes.json();
+    const tiles = await tilesRes.json();
+
+    // Map database structures to the frontend's expected structures:
+    return categories.map(cat => {
+      // Find all tiles belonging to this category
+      const catTiles = tiles.filter(tile => tile.category === cat.id);
+      
+      return {
+        id: cat.id,
+        name: cat.name,
+        nameHi: cat.nameHi,
+        icon: cat.icon,
+        cover: cat.cover,
+        description: cat.description,
+        items: catTiles.map(tile => ({
+          id: tile._id, // map DB _id to frontend item.id
+          title: tile.name, // map DB name to frontend item.title
+          price: tile.price,
+          desc: tile.description,
+          image: tile.imageUrl, // map DB imageUrl to frontend item.image
+          isOutOfStock: !tile.stockStatus // map DB stockStatus to frontend item.isOutOfStock
+        }))
+      };
+    });
   } catch (err) {
-    console.error('API Error:', err);
-    throw err;
+    console.error('Database API Error, falling back to dummy data:', err);
+    try {
+      const res = await fetch('/dummy-data.json');
+      if (!res.ok) throw new Error('Failed to fetch dummy data');
+      return await res.json();
+    } catch (fallbackErr) {
+      console.error('Fallback Error:', fallbackErr);
+      throw err;
+    }
   }
 }
 
