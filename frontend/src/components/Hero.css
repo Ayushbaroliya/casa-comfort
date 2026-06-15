@@ -14,7 +14,7 @@
   position: absolute;
   top: 0; left: 0; right: 0; bottom: 0;
   background-image: url('/casa_hero.webp');
-  background-size: cover;
+  background-size: 100% 100%;
   background-position: center;
   background-repeat: no-repeat;
   z-index: 1;
@@ -32,6 +32,7 @@
   z-index: 2;
   opacity: 0.85;
   filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.9));
+  display: none; /* Hidden since background image now uses 100% 100% and displays its built-in stitches */
 }
 
 /* Stitched borders top and bottom */
