@@ -137,14 +137,6 @@ const CategoryManager = ({ categories, refresh }) => {
               <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.875rem', color: 'var(--admin-text-muted)' }}>Name</label>
               <input value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} style={inputStyle} required />
             </div>
-            <div>
-              <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.875rem', color: 'var(--admin-text-muted)' }}>Name (Hindi) Optional</label>
-              <input value={formData.nameHi} onChange={e => setFormData({...formData, nameHi: e.target.value})} style={inputStyle} />
-            </div>
-            <div>
-              <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.875rem', color: 'var(--admin-text-muted)' }}>Icon (Emoji)</label>
-              <input value={formData.icon} onChange={e => setFormData({...formData, icon: e.target.value})} style={inputStyle} />
-            </div>
             <div style={{ gridColumn: 'span 2' }}>
               <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.875rem', color: 'var(--admin-text-muted)' }}>Cover Image</label>
               <div style={{ border: '2px dashed var(--admin-border)', padding: '1rem', borderRadius: '6px', textAlign: 'center', background: 'var(--admin-bg)', marginBottom: '1rem' }}>
