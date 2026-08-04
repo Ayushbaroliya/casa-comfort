@@ -4,13 +4,13 @@ const ProductManager = ({ tiles, categories, refresh }) => {
   const [showForm, setShowForm] = useState(false);
   const [editingTile, setEditingTile] = useState(null);
   
-  const [formData, setFormData] = useState({ name: '', price: '', category: '', description: '', imageUrl: '', publicId: '', stockStatus: true });
+  const [formData, setFormData] = useState({ name: '', price: '', category: '', description: '', imageUrl: '', publicId: '', stockStatus: true, images: [] });
   const [uploading, setUploading] = useState(false);
 
   const openForm = (tile = null) => {
     setEditingTile(tile);
     if(tile) setFormData(tile);
-    else setFormData({ name: '', price: '', category: '', description: '', imageUrl: '', publicId: '', stockStatus: true });
+    else setFormData({ name: '', price: '', category: '', description: '', imageUrl: '', publicId: '', stockStatus: true, images: [] });
     setShowForm(true);
   };
 
@@ -30,20 +30,29 @@ const ProductManager = ({ tiles, categories, refresh }) => {
   };
 
   const handleFileUpload = async (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
+    const files = Array.from(e.target.files);
+    if (files.length === 0) return;
 
     setUploading(true);
-    const data = new FormData();
-    data.append('file', file);
-
     try {
-      const res = await fetch('/api/upload', {
-        method: 'POST',
-        body: data,
+      const uploadPromises = files.map(async (file) => {
+        const data = new FormData();
+        data.append('file', file);
+        const res = await fetch('/api/upload', {
+          method: 'POST',
+          body: data,
+        });
+        return await res.json();
       });
-      const result = await res.json();
-      setFormData({ ...formData, imageUrl: result.url, publicId: result.public_id });
+
+      const results = await Promise.all(uploadPromises);
+      
+      if (editingTile) {
+        setFormData({ ...formData, imageUrl: results[0].url, publicId: results[0].public_id });
+      } else {
+        const newImages = results.map(r => ({ imageUrl: r.url, publicId: r.public_id }));
+        setFormData({ ...formData, images: [...(formData.images || []), ...newImages] });
+      }
     } catch (err) {
       alert('Upload failed');
     } finally {
@@ -53,26 +62,40 @@ const ProductManager = ({ tiles, categories, refresh }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const method = editingTile ? 'PATCH' : 'POST';
-    const url = editingTile ? `/api/tiles?id=${editingTile._id}` : '/api/tiles';
 
     try {
-      const res = await fetch(url, {
-        method,
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
-      });
-
-      if (!res.ok) {
-        let errMsg = 'Failed to save product';
-        const contentType = res.headers.get('content-type');
-        if (contentType && contentType.includes('application/json')) {
-          const errorData = await res.json();
-          errMsg = errorData.message || errorData.error || errMsg;
-        } else {
-          errMsg = await res.text();
+      if (editingTile) {
+        const res = await fetch(`/api/tiles?id=${editingTile._id}`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(formData),
+        });
+        if (!res.ok) throw new Error('Failed to update product');
+      } else {
+        const imagesToCreate = formData.images && formData.images.length > 0 
+          ? formData.images 
+          : [{ imageUrl: formData.imageUrl, publicId: formData.publicId }];
+          
+        if (!imagesToCreate[0].imageUrl) {
+          alert('Please upload at least one image');
+          return;
         }
-        throw new Error(errMsg);
+
+        const createPromises = imagesToCreate.map(img => {
+          return fetch('/api/tiles', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              ...formData,
+              imageUrl: img.imageUrl,
+              publicId: img.publicId
+            }),
+          });
+        });
+
+        const responses = await Promise.all(createPromises);
+        const failed = responses.filter(r => !r.ok);
+        if (failed.length > 0) throw new Error(`Failed to create ${failed.length} products`);
       }
 
       refresh();
@@ -132,13 +155,20 @@ const ProductManager = ({ tiles, categories, refresh }) => {
               </div>
 
               <div>
-                <label style={labelStyle}>Product Image</label>
+                <label style={labelStyle}>Product Image(s) {editingTile ? '' : '(Select multiple files for bulk creation)'}</label>
                 <div style={{ border: '2px dashed var(--admin-border)', padding: '1rem', borderRadius: '6px', textAlign: 'center', background: 'var(--admin-bg)' }}>
-                  <input type="file" onChange={handleFileUpload} accept="image/*" style={{ color: 'var(--admin-text-muted)' }} />
+                  <input type="file" multiple={!editingTile} onChange={handleFileUpload} accept="image/*" style={{ color: 'var(--admin-text-muted)' }} />
                   {uploading && <p style={{ color: '#3b82f6', fontSize: '0.875rem', marginTop: '0.5rem' }}>Uploading to Cloudinary...</p>}
                 </div>
-                {formData.imageUrl && (
+                {editingTile && formData.imageUrl && (
                   <img src={formData.imageUrl} alt="Preview" style={{ width: '100%', height: '150px', objectFit: 'cover', borderRadius: '6px', marginTop: '1rem', border: '1px solid var(--admin-border)' }} />
+                )}
+                {!editingTile && formData.images && formData.images.length > 0 && (
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(80px, 1fr))', gap: '0.5rem', marginTop: '1rem' }}>
+                    {formData.images.map((img, idx) => (
+                      <img key={idx} src={img.imageUrl} alt={`Preview ${idx}`} style={{ width: '100%', height: '80px', objectFit: 'cover', borderRadius: '6px', border: '1px solid var(--admin-border)' }} />
+                    ))}
+                  </div>
                 )}
               </div>
 
