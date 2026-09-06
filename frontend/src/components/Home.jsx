@@ -8,7 +8,7 @@ import Hero from "./Hero";
 import OptimizedImage from "./OptimizedImage";
 
 const FEATURED = new Set(["sofas-seating", "dining-room", "bedroom"]);
-const WA_NUMBER = import.meta.env.VITE_WHATSAPP_NUMBER || "9111999271";
+const WA_NUMBER = import.meta.env.VITE_WHATSAPP_NUMBER || "919111999271";
 
 const Skeleton = () => (
   <div className="categories-loading-wrapper">
@@ -87,24 +87,22 @@ const Home = () => {
       ) : (
         <div className="categories-grid">
           {categories?.map((cat) => (
-            <Link
-              to={`/category/${cat.id}`}
-              key={cat.id}
-              className={`category-card ${FEATURED.has(cat.id) ? "featured" : ""}`}
-            >
-              <OptimizedImage 
-                src={cat.cover || "https://images.unsplash.com/photo-1517646331032-9e8563c520a1?q=80&w=800&auto=format&fit=crop"} 
-                className="category-image" 
-                alt={cat.name}
-                sizes="(max-width: 480px) 100vw, (max-width: 768px) 50vw, 33vw"
-                onError={(e) => { e.target.src = "https://images.unsplash.com/photo-1517646331032-9e8563c520a1?q=80&w=800&auto=format&fit=crop"; }}
-              />
-              <div className="category-label">
-                <span className="category-icon">{cat.icon}</span>
-                <h3>{cat.name}</h3>
-                <p>{cat.description}</p>
-              </div>
-            </Link>
+              <Link
+                to={`/category/${cat.id}`}
+                key={cat.id}
+                className="category-card"
+              >
+                <OptimizedImage
+                  src={cat.cover || "https://images.unsplash.com/photo-1517646331032-9e8563c520a1?q=80&w=800&auto=format&fit=crop"}
+                  className="category-image"
+                  alt={cat.name}
+                  onError={(e) => { e.target.src = "https://images.unsplash.com/photo-1517646331032-9e8563c520a1?q=80&w=800&auto=format&fit=crop"; }}
+                />
+                <div className="category-info">
+                  <h3 className="category-name">{cat.name}</h3>
+                  <p className="category-desc">Casa Comforts offers premium and affordable luxury {cat.name.toLowerCase()}s crafted with care...</p>
+                </div>
+              </Link>
           ))}
         </div>
       )}

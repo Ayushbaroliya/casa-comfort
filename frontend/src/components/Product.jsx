@@ -6,7 +6,7 @@ import Footer from "./Footer";
 import { useWishlist } from "../contexts/WishlistContext";
 import OptimizedImage from "./OptimizedImage";
 
-const WA_NUMBER = import.meta.env.VITE_WHATSAPP_NUMBER || "916260942161";
+const WA_NUMBER = import.meta.env.VITE_WHATSAPP_NUMBER || "919111999271";
 
 const Product = () => {
   const { id } = useParams();

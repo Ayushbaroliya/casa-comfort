@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { FaWhatsapp, FaBars, FaTimes, FaHome, FaInfoCircle } from "react-icons/fa";
 
-const WA_NUMBER = import.meta.env.VITE_WHATSAPP_NUMBER || "9111999271";
+const WA_NUMBER = import.meta.env.VITE_WHATSAPP_NUMBER || "919111999271";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -40,15 +40,15 @@ const Navbar = () => {
 
       <div className={`nav-links ${menuOpen ? "open" : ""}`}>
         <div className="mobile-menu-header">
-           <span className="mobile-logo">Casa Comforts</span>
-           <FaTimes className="mobile-close" onClick={closeMenu} size={24} />
+          <span className="mobile-logo">Casa Comforts</span>
+          <FaTimes className="mobile-close" onClick={closeMenu} size={24} />
         </div>
 
         <span className="nav-link-item" onClick={handleLogoClick}>
           <FaHome className="nav-icon-mobile" />
           Home
         </span>
-        
+
         <span
           className="nav-link-item"
           onClick={() => { closeMenu(); navigate("/about"); }}

@@ -4,7 +4,7 @@ import { useWishlist } from "../contexts/WishlistContext";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import OptimizedImage from "./OptimizedImage";
 
-const WA_NUMBER = import.meta.env.VITE_WHATSAPP_NUMBER || "9111999271";
+const WA_NUMBER = import.meta.env.VITE_WHATSAPP_NUMBER || "919111999271";
 
 /* Album is the legacy single-page view — kept for backwards compat.
    Wishlist is now managed by the global WishlistContext. */

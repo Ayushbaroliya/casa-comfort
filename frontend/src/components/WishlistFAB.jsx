@@ -4,7 +4,7 @@ import { useWishlist } from "../contexts/WishlistContext";
 import OptimizedImage from "./OptimizedImage";
 import "./WishlistFAB.css";
 
-const WA_NUMBER = import.meta.env.VITE_WHATSAPP_NUMBER || "9111999271";
+const WA_NUMBER = import.meta.env.VITE_WHATSAPP_NUMBER || "919111999271";
 
 /* ── Helper: send enquiry to WhatsApp ── */
 function buildWhatsAppUrl(wishlist) {

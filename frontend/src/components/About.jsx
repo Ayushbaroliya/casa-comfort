@@ -1,7 +1,7 @@
 import React from "react";
 import { FaWhatsapp, FaInstagram, FaMapMarkerAlt, FaPhone, FaStore, FaTrophy, FaCouch, FaTree, FaTruck } from "react-icons/fa";
 
-const WA_NUMBER = import.meta.env.VITE_WHATSAPP_NUMBER || "9111999271";
+const WA_NUMBER = import.meta.env.VITE_WHATSAPP_NUMBER || "919111999271";
 const PHONE    = import.meta.env.VITE_PHONE_NUMBER    || "9111999271";
 const IG_LINK  = import.meta.env.VITE_INSTAGRAM_LINK  || "https://www.instagram.com/singhai.harshjain";
 const MAP_LINK = import.meta.env.VITE_MAPS_LINK       || "https://www.google.com/maps/search/?api=1&query=53%2F33+Rameshwaram+Colony%2C+Beside+New+Laxmi+Pratisthan%2C+Vijay+Nagar+Main+Road%2C+Jabalpur+482002+%28M.P.%29";
